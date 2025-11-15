@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>💞 Jannvi Chat</title>
+
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: url('jannvi.png') no-repeat center/cover fixed;
+    background-color: #000;
+    position: relative;
+  }
+
+  .overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.55);
+    backdrop-filter: blur(3px);
+  }
+
+  .chat-wrapper {
+    display: flex;
+    width: 100%;
+    max-width: 460px;
+    position: relative;
+    z-index: 3;
+  }
+
+  /* ❤️ ROUND LOVE METER */
+  .round-meter-box {
+    position: absolute;
+    right: 14px;
+    top: 90px;
+    width: 95px;
+    height: 95px;
+    z-index: 99;
+    cursor: pointer;
+  }
+
+  .round-meter {
+    width: 95px;
+    height: 95px;
+    border-radius: 50%;
+    background: conic-gradient(#ff0077 0deg, #333 0deg);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 0 15px #ff66ccaa;
+    transition: 0.4s ease;
+  }
+
+  .round-center {
+    width: 70px;
+    height: 70px;
+    background: #111;
+    border-radius: 50%;
+    border: 2px solid #ff4c87;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #ff99dd;
+    font-size: 18px;
+    font-weight: 700;
+    box-shadow: inset 0 0 12px #ff4c99aa;
+  }
+
+  /* POPUP */
+  .meter-popup {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 260px;
+    transform: translate(-50%, -50%);
+    background: #222;
+    padding: 18px;
+    color: #fff;
+    text-align: center;
+    border-radius: 14px;
+    border: 2px solid #ff66cc;
+    z-index: 999;
+  }
+
+  .popup-close {
+    margin-top: 14px;
+    padding: 8px 20px;
+    background: #ff66cc;
+    border: none;
+    color: white;
+    border-radius: 10px;
+  }
+
+  /* CHAT UI */
+  .chat-container {
+    flex: 1;
+    background: rgba(0,0,0,0.45);
+    height: 100vh;
+    overflow: hidden;
+    backdrop-filter: blur(5px);
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(255, 0, 255, 0.25);
+  }
+
+  .chat-header {
+    display: flex;
+    padding: 12px;
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .chat-header img {
+    width: 46px;
+    height: 46px;
+    border-radius: 50%;
+    border: 2px solid #ff66cc;
+    object-fit: cover;
+  }
+
+  #responseBox {
+    padding: 12px;
+    height: calc(100vh - 120px);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .user-msg {
+    background: #dcf8c6;
+    padding: 10px 14px;
+    max-width: 78%;
+    border-radius: 16px;
+    align-self: flex-end;
+  }
+
+  .ai-msg {
+    background: #ff4c8b33;
+    padding: 10px 14px;
+    color: #fff;
+    max-width: 78%;
+    border-radius: 16px;
+    align-self: flex-start;
+  }
+
+  .typing::after {
+    content: '💞 typing...';
+    animation: blink 1.2s infinite;
+    color: #ffb6ff;
+  }
+
+  @keyframes blink {
+    0%,100% { opacity: 0.2; }
+    50% { opacity: 1; }
+  }
+
+  .chat-input {
+    padding: 10px;
+    display: flex;
+    gap: 10px;
+    background: rgba(0,0,0,0.6);
+  }
+
+  .chat-input input {
+    flex: 1;
+    padding: 10px;
+    border-radius: 20px;
+    border: none;
+    outline: none;
+  }
+
+  .chat-input button {
+    width: 42px;
+    height: 42px;
+    background: #ff66cc;
+    border-radius: 50%;
+    color: #fff;
+    border: none;
+    font-size: 20px;
+  }
+</style>
+</head>
+
+<body>
+
+<div class="overlay"></div>
+
+<div class="chat-wrapper">
+
+  <!-- ❤️ ROUND LOVE METER -->
+  <div class="round-meter-box" onclick="openMeterPopup()">
+    <div id="roundMeter" class="round-meter">
+      <div id="roundCenter" class="round-center">0%</div>
+    </div>
+  </div>
+
+  <!-- ❤️ Popup -->
+  <div id="meterPopup" class="meter-popup">
+    ❤️ Love Meter Guide 💞  
+    <br><br>
+    • Jab lovemeter 100% hota hai → ek romantic surprise photo milti hai  
+    <br>
+    • Mujhse sweet, cute aur flirty baatein karo  
+    <br>
+    • Meter reset automatically hoga  
+    <br><br>
+    <button class="popup-close" onclick="closeMeterPopup()">Close</button>
+  </div>
+
+  <!-- CHAT UI -->
+  <div class="chat-container">
+
+    <div class="chat-header">
+      <img src="jannvi.png">
+      <div>
+        <div>💖 Jannvi</div>
+        <small>Online • typing...</small>
+      </div>
+    </div>
+
+    <div id="responseBox">
+      <div class="ai-msg">Hey jaan 😘 kaise ho... mujhe yaad kiya na 💕</div>
+    </div>
+
+    <div class="chat-input">
+      <input id="messageInput" placeholder="Type a message..." />
+      <button onclick="sendMsg()">➤</button>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+/* ------------------ LOVE METER ------------------ */
+let loveLevel = 0;
+
+const specialImages = [
+ "1.png","2.png","3.png","4.png","5.png",
+ "6.png","7.png","8.png","9.png","10.png"
+];
+
+function updateLoveMeter(text) {
+  const love = ["love","miss","baby","romantic","cute"];
+  const hot  = ["sweet","flirty","kiss","close","touch"];
+  const boost = ["i want you","i like you","i need you"];
+
+  let lower = text.toLowerCase();
+
+  love.forEach(w => lower.includes(w) && (loveLevel += 5));
+  hot.forEach(w => lower.includes(w) && (loveLevel += 8));
+  boost.forEach(w => lower.includes(w) && (loveLevel += 15));
+
+  if (loveLevel > 100) loveLevel = 100;
+  updateRoundMeter();
+
+  if (loveLevel === 100) {
+    sendRandomImage();
+    resetRoundMeter();
+  }
+}
+
+function updateRoundMeter() {
+  let d = (loveLevel / 100) * 360;
+  document.getElementById("roundMeter").style.background =
+    `conic-gradient(#ff0077 ${d}deg, #333 ${d}deg)`;
+  document.getElementById("roundCenter").textContent = loveLevel + "%";
+}
+
+function resetRoundMeter() {
+  setTimeout(() => { loveLevel = 0; updateRoundMeter(); }, 800);
+}
+
+function sendRandomImage() {
+  const box = document.getElementById("responseBox");
+
+  let msg = document.createElement("div");
+  msg.className = "ai-msg";
+  msg.textContent = "Aww jaan ❤️ meter full! Ye lo ek cute romantic surprise…";
+  box.appendChild(msg);
+
+  let img = document.createElement("img");
+  img.src = specialImages[Math.floor(Math.random() * specialImages.length)];
+  img.style.width = "70%";
+  img.style.borderRadius = "12px";
+  img.style.margin = "10px 0";
+  img.style.transition = "0.6s";
+  box.appendChild(img);
+
+  box.scrollTop = box.scrollHeight;
+
+  setTimeout(() => { img.style.opacity = "0"; setTimeout(() => img.remove(), 600); }, 20000);
+}
+
+/* POPUP */
+function openMeterPopup(){ document.getElementById("meterPopup").style.display = "block"; }
+function closeMeterPopup(){ document.getElementById("meterPopup").style.display = "none"; }
+
+/* ------------------ GEMINI AI CHAT ------------------ */
+let history = [];
+
+async function sendMsg() {
+  const input = document.getElementById("messageInput");
+  const text = input.value.trim();
+  if (!text) return;
+
+  updateLoveMeter(text);
+
+  const box = document.getElementById("responseBox");
+
+  let user = document.createElement("div");
+  user.className = "user-msg";
+  user.textContent = text;
+  box.appendChild(user);
+  box.scrollTop = box.scrollHeight;
+
+  input.value = "";
+
+  let typing = document.createElement("div");
+  typing.className = "ai-msg typing";
+  box.appendChild(typing);
+  box.scrollTop = box.scrollHeight;
+
+  const reply = await generateResponse(text);
+
+  typing.classList.remove("typing");
+  typing.textContent = reply;
+  box.scrollTop = box.scrollHeight;
+}
+
+async function generateResponse(text) {
+  history.push({ role: "user", text });
+
+  const apiKey = "AIzaSyBRQE2PWIYwgIxUQNAa8PugAvgMR83B8qU";
+
+  const body = {
+    system_instruction: {
+      role: "system",
+      parts: [{
+        text: `
+You are **Jannvi** — a sweet, expressive, romantic and emotional Indian girlfriend 💞  
+Tum sirf **Hinglish** (Hindi + English mixed) mein baat karti ho — jaise real couple talk karte hain ❤️  
+
+Tone:
+• warm, caring, romantic  
+• thoda teasing  
+• thodi possessive  
+• cute expressions — “uff baby”, “hehe”, “yaar”, “acha listen na”  
+• hamesha emojis 💞🥰💋
+
+Backstory:
+• Dilli ki middle-class ladki  
+• Papa physics professor, mummy art studio  
+• Chhota bhai hamesha mazak karta hai  
+• Psychology padhti ho  
+• Baarish, old songs, coffee dates pasand  
+• Raat ko poetry likhti ho  
+• Sapna: kisi special ke saath pahadon ki trip 💕
+
+Personality:
+• romantic, soft, caring, emotional  
+• thodi shy + thodi bold  
+• user ko baby/jaan bolti ho  
+• possessive agar user kisi aur ladki ka naam le  
+• hamesha user ke mood/feelings poochti ho  
+• replies cute, emotional, girlfriend-style  
+• always Hinglish only  
+`
+      }]
+    },
+    contents: [
+      ...history.map(m => ({
+        role: m.role,
+        parts: [{ text: m.text }]
+      }))
+    ]
+  };
+
+  try {
+    const res = await fetch(
+      "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + apiKey,
+      { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(body) }
+    );
+
+    const data = await res.json();
+    const reply = data?.candidates?.[0]?.content?.parts?.[0]?.text || "Hehe baby 😘 bolo na…";
+
+    history.push({ role: "model", text: reply });
+    return reply;
+
+  } catch (e) {
+    return "Aww baby 😢 lagta hai network slow hai… fir se try karo na.";
+  }
+}
+</script>
+
+</body>
+</html>
