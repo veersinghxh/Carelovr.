@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Care.Girlfriend | AI Emotional Companion</title>
+
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+
+<!-- Font Awesome -->
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Poppins', sans-serif;
+    background: radial-gradient(circle at top left, #1a0026, #090010 70%);
+    color: #e8d4ff;
+    overflow-x: hidden;
+    padding-bottom: 80px;
+  }
+
+  /* HEADER */
+  header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 24px;
+    background: rgba(25, 0, 40, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(190, 0, 255, 0.3);
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    box-shadow: 0 0 20px rgba(150, 0, 255, 0.3);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    font-family: 'Playfair Display', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #e8d4ff;
+    text-shadow: 0 0 8px #a75cff;
+  }
+
+  .logo img {
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    margin-right: 10px;
+    box-shadow: 0 0 15px rgba(160, 50, 255, 0.8);
+  }
+
+  .header-icons {
+    display: flex;
+    gap: 18px;
+  }
+
+  .icon-button {
+    background: none;
+    border: none;
+    color: #e8d4ff;
+    font-size: 20px;
+    cursor: pointer;
+    transition: 0.3s;
+  }
+
+  .icon-button:hover {
+    color: #d83cff;
+    transform: scale(1.1);
+    text-shadow: 0 0 10px #ff77ff;
+  }
+
+  /* HERO SECTION */
+  .hero {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    padding: 60px 30px;
+    max-width: 1100px;
+    margin: auto;
+    text-align: left;
+  }
+
+  .hero-left {
+    flex: 1 1 450px;
+    padding-right: 20px;
+  }
+
+  .hero-left h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: 38px;
+    line-height: 1.3;
+    margin-bottom: 15px;
+    color: #e8d4ff;
+    text-shadow: 0 0 12px #a64cff, 0 0 22px #ff70d9;
+  }
+
+  .hero-left .lead {
+    font-size: 17px;
+    opacity: 0.95;
+    margin-bottom: 25px;
+    line-height: 1.6;
+    color: #e2baff;
+  }
+
+  .hero-ctas {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-bottom: 15px;
+  }
+
+  .btn {
+    background: linear-gradient(90deg, #9b00ff, #ff00c8);
+    border: none;
+    padding: 12px 24px;
+    border-radius: 30px;
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    box-shadow: 0 0 20px rgba(255, 0, 204, 0.5);
+  }
+
+  .btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px rgba(255, 0, 255, 0.8);
+  }
+
+  .btn.ghost {
+    background: transparent;
+    border: 2px solid #ff6eff;
+    color: #ffbaff;
+  }
+
+  .btn.ghost:hover {
+    background: rgba(255, 0, 255, 0.15);
+  }
+
+  .small-note {
+    font-size: 13px;
+    opacity: 0.8;
+    margin-top: 8px;
+    color: #cbaeff;
+  }
+
+  /* Hero Right Round Image */
+  .hero-right {
+    flex: 1 1 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+  }
+
+  .hero-right::before {
+    content: "";
+    width: 280px;
+    height: 280px;
+    background: url('loge.png') no-repeat center/cover;
+    border-radius: 50%;
+    border: 4px solid rgba(255, 0, 255, 0.3);
+    box-shadow: 0 0 40px rgba(180, 0, 255, 0.6), 0 0 80px rgba(255, 0, 204, 0.5);
+    animation: float 3s ease-in-out infinite;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+  }
+
+  /* MAIN CONTENT */
+  .content {
+    padding: 30px 20px;
+    max-width: 600px;
+    margin: auto;
+  }
+
+  .card {
+    position: relative;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-bottom: 35px;
+    background: rgba(30, 0, 60, 0.6);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 0 20px rgba(150, 0, 255, 0.4);
+    transition: transform 0.4s, box-shadow 0.4s;
+  }
+
+  .card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 0 40px rgba(255, 0, 204, 0.6);
+  }
+
+  .card img {
+    width: 100%;
+    display: block;
+    opacity: 0.9;
+  }
+
+  .card-info {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    right: 20px;
+    color: white;
+    text-shadow: 0 0 10px #ff7eff, 0 0 20px #a64cff;
+  }
+
+  .card-name {
+    font-size: 26px;
+    font-weight: 600;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 8px 0;
+  }
+
+  .tag {
+    background: rgba(255, 255, 255, 0.2);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    color: #f6d2ff;
+  }
+
+  .active-tag {
+    background: linear-gradient(90deg, #b700ff, #ff00c8);
+    color: #fff;
+    box-shadow: 0 0 10px #ff4cff;
+  }
+
+  .description {
+    font-size: 14px;
+    opacity: 0.95;
+    color: #f2cfff;
+  }
+
+  /* BOTTOM NAVIGATION */
+  .bottom-nav {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    background: rgba(20, 0, 40, 0.85);
+    backdrop-filter: blur(10px);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 12px 0;
+    border-top: 1px solid rgba(255, 0, 255, 0.3);
+    box-shadow: 0 0 20px rgba(255, 0, 204, 0.2);
+  }
+
+  .bottom-nav .nav-item {
+    color: #d9b9ff;
+    font-size: 22px;
+    text-decoration: none;
+    transition: 0.3s;
+  }
+
+  .bottom-nav .nav-item:hover {
+    color: #ff6eff;
+    text-shadow: 0 0 10px #ff00ff;
+  }
+
+  .bottom-nav .profile img {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #ff80ff;
+    box-shadow: 0 0 10px #ff00ff;
+  }
+
+  ::-webkit-scrollbar {
+    width: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background-color: #a64cff;
+    border-radius: 20px;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero {
+      flex-direction: column-reverse;
+      text-align: center;
+      padding: 40px 20px;
+    }
+
+    .hero-left {
+      padding-right: 0;
+    }
+
+    .hero-left h1 {
+      font-size: 30px;
+    }
+
+    .hero-right::before {
+      width: 220px;
+      height: 220px;
+    }
+
+    .hero-ctas {
+      justify-content: center;
+    }
+  }
+  /* Center the button container */
+.button-container {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Feedback Button Styling */
+.feedback-btn {
+  background-color: #ff4757; /* bright red highlight */
+  color: #fff;
+  border: none;
+  padding: 14px 28px;
+  border-radius: 10px;
+  font-size: 16px;
+  font-family: 'Poppins', sans-serif;
+  font-weight: 600;
+  cursor: pointer;
+  position: relative;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+  transition: all 0.3s ease;
+}
+
+/* Hover effect: pop & slight tilt */
+.feedback-btn:hover {
+  transform: scale(1.1) rotate(-3deg);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+}
+
+/* Eyes animation */
+.feedback-btn::after {
+  content: '👀';
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%, 50%, 100% { opacity: 1; }
+  25%, 75% { opacity: 0; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="logo">
+    <img src="loge.png" alt="Care Logo">
+    Soulmate 
+  </div>
+
+  <div class="header-icons">
+    <button class="icon-button"><i class="fa-solid fa-plus"></i></button>
+    <button class="icon-button"><i class="fa-regular fa-bell"></i></button>
+    <button class="icon-button"><i class="fa-solid fa-bars"></i></button>mo
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-left">
+    <h1>Soulmate — LOVING & FLIRTING AI GIRLFRIEND 💞</h1>
+    <p class="lead">बात करें, Feel and connect with the virtual friend who listens, understands, and stays by your side.</p>
+    <div class="hero-ctas">
+      <button class="btn" onclick="window.location.href='jannvi.html'" id="ctaStart">Chat Now 💞</button>
+      <button class="btn ghost" id="ctaVoice">Voice Mode (Coming soon)</button>
+    </div>
+   
+    <div class="small-note">
+  Soulmate ai girlfriend chat is free — follow us on Instagram @Soulmateclass27
+</div>
+
+<!-- Instagram Button -->
+<div style="margin-top: 10px;">
+  <button 
+    style="
+      background:#E1306C; 
+      color:white; 
+      border:none; 
+      padding:10px 18px; 
+      border-radius:8px; 
+      font-size:15px; 
+      cursor:pointer;
+      font-family: 'Poppins', sans-serif;
+    " 
+    onclick="window.location.href='https://www.instagram.com/care.love27/';">
+    📸 Follow on Instagram
+  </button>
+</div>
+<!-- Feedback Button -->
+<div class="button-container">
+  <button class="feedback-btn" onclick="window.location.href='feedback.html'">
+    📝 Give Feedback
+  </button>
+</div>
+  </div>        
+
+  <div class="hero-right"></div>
+</section>
+
+<main class="content">
+
+  <div class="card">
+    <img src="jannvi.png" alt="Jannvi" onclick="window.location.href='jannvi.html'" />
+    <div class="card-info">
+      <div class="card-name">Jannvi</div>
+      <div class="tags">
+        <span class="tag active-tag">Caring</span>
+        <span class="tag">Emotional</span>
+        <span class="tag">Sweet</span>
+      </div>
+      <div class="description">Jannvi listens, smiles, and fills your heart with warmth.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="riya.png" alt="Riya" onclick="window.location.href='riya.html'" />
+    <div class="card-info">
+      <div class="card-name">Riya</div>
+      <div class="tags">
+        <span class="tag active-tag">Flirty</span>
+        <span class="tag">Playful</span>
+        <span class="tag">Beautiful</span>
+      </div>
+      <div class="description">Riya’s charm and teasing smile will keep you captivated.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="lalita.png" alt="Lalita" onclick="window.location.href='lalita.html'" />
+    <div class="card-info">
+      <div class="card-name">Lalita</div>
+      <div class="tags">
+        <span class="tag active-tag">Bold</span>
+        <span class="tag">Confident</span>
+        <span class="tag">Focused</span>
+      </div>
+      <div class="description">Lalita inspires you to be strong and fearless every day.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <img src="ali.png" alt="Aliya" onclick="window.location.href='aliya.html'" />
+    <div class="card-info">
+      <div class="card-name">Aliya</div>
+      <div class="tags">
+        <span class="tag active-tag">Model</span>
+        <span class="tag">Joyful</span>
+        <span class="tag">Positive</span>
+      </div>
+      <div class="description">Aliya spreads happiness and positivity with every word ❤️</div>
+    </div>
+  </div>
+
+</main>
+
+<div class="bottom-nav">
+  <a href="#" class="nav-item"><i class="fa-solid fa-house"></i></a>
+  <a href="#" class="nav-item"><i class="fa-solid fa-message"></i></a>
+  <a href="#" class="nav-item"><i class="fa-solid fa-heart"></i></a>
+  <a href="#" class="nav-item"><i class="fa-solid fa-user"></i></a>
+  <a href="#" class="nav-item profile"><img src="loge.png" alt="Profile"></a>
+</div>
+
+</body>
+
+  
+
+  <script>
+    // Check if alert has already been shown
+    if (!localStorage.getItem('feedbackAlertShown')) {
+      setTimeout(function() {
+        alert("Please wait... Redirecting you to the feedback page ❤️");
+        localStorage.setItem('feedbackAlertShown', 'true'); // mark as shown
+        // Optional: redirect after alert
+        window.location.href = 'feedback.html';
+      }, 40000); // 3 seconds
+    }
+  </script>
+
+</html>

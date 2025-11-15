@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>User Feedback Form</title>
+
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(135deg, #f7f1ff, #e2d4f7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    padding: 20px;
+  }
+
+  .form-box {
+    background: #fff;
+    padding: 30px 25px;
+    max-width: 450px;
+    width: 100%;
+    border-radius: 15px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+    transition: transform 0.2s;
+  }
+
+  .form-box:hover {
+    transform: translateY(-3px);
+  }
+
+  h2 {
+    text-align: center;
+    color: #6b13d4;
+    margin-bottom: 20px;
+    font-size: 24px;
+  }
+
+  input, select, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-top: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    font-size: 15px;
+    transition: border 0.2s;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: #8a2be2;
+    outline: none;
+  }
+
+  textarea {
+    min-height: 100px;
+    resize: vertical;
+  }
+
+  label {
+    font-weight: 600;
+    margin-top: 15px;
+    display: block;
+    color: #333;
+  }
+
+  button {
+    width: 100%;
+    padding: 14px;
+    margin-top: 25px;
+    border: none;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #8a2be2, #6b13d4);
+    color: #fff;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
+
+  button:hover {
+    background: linear-gradient(90deg, #6b13d4, #8a2be2);
+    transform: translateY(-2px);
+  }
+
+  @media (max-width: 500px) {
+    .form-box {
+      padding: 25px 20px;
+    }
+
+    h2 {
+      font-size: 20px;
+    }
+  }
+</style>
+</head>
+
+<body>
+
+<div class="form-box">
+  <h2>User Feedback Form for soulmate ai girlfriend</h2>
+
+  <form id="userForm">
+    <input name="name" id="name" placeholder="Name" required>
+    <input name="email" id="email" placeholder="Email" required>
+
+    <label>Which Character You Like?</label>
+    <select name="character" id="character">
+      <option value="Jannvi (AI Girlfriend)">Jannvi (AI Girlfriend)</option>
+      <option value="Aisha AI">riya</option>
+      <option value="Cute Ananya">Lalita</option>
+      <option value="Romantic Sara">ALIYA</option>
+    </select>
+
+    <label>Where you found this platform?</label>
+    <select name="platform" id="platform">
+      <option value="Instagram">Instagram</option>
+      <option value="Facebook">facebook ads</option>
+      <option value="Other">Other</option>
+    </select>
+
+    <input name="age" id="age" type="number" placeholder="Age" required>
+
+    <label>Which type working type</label>
+    <select id="profession">
+      <option value="Study">Study</option>
+      <option value="College Student">College Student</option>
+      <option value="Working Professional">Working Professional</option>
+    </select>
+
+    <input name="internetGirls" id="internetGirls" placeholder="What type of interest girls you like?">
+
+    <label>Your Feedback</label>
+    <textarea name="feedback" id="feedback" placeholder="Your Feedback..."></textarea>
+
+    <button type="button" onclick="submitForm()">Submit</button>
+  </form>
+</div>
+
+<script>
+function submitForm() {
+  const data = {
+    name: document.getElementById("name").value,
+    email: document.getElementById("email").value,
+    character: document.getElementById("character").value,
+    platform: document.getElementById("platform").value,
+    age: document.getElementById("age").value,
+    profession: document.getElementById("profession").value,
+    internetGirls: document.getElementById("internetGirls").value,
+    feedback: document.getElementById("feedback").value
+  };
+
+  fetch("https://sheetdb.io/api/v1/odtn8h18qxorg", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ data: data })
+  })
+  .then(response => response.json())
+  .then(json => {
+    alert("✔ Form Submitted Successfully!");
+    document.getElementById("userForm").reset();
+  })
+  .catch(err => {
+    alert("❌ Error submitting form!");
+    console.error(err);
+  });
+}
+</script>
+
+</body>
+</html>
